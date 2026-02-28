@@ -3,38 +3,128 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="WPF App" Height="450" Width="800">
-    <Grid>
-        <!-- 左侧菜单栏 -->
+        Title="AI Demo" Height="600" Width="1000" Background="Transparent" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+        <!-- Colors -->
+        <LinearGradientBrush x:Key="WindowBackground" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFEDF2FF" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="SidebarBackground" Color="#FF1F2937"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF4F46E5"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFFFF"/>
+
+        <!-- Menu button style -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter VerticalAlignment="Center" Margin="8,4" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#223449FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#332C1EFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Header button style -->
+        <Style x:Key="HeaderButton" TargetType="Button">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="#333" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource WindowBackground}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" /> <!-- 菜单栏 -->
-            <ColumnDefinition Width="*" />   <!-- 内容展示 -->
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- 菜单栏 -->
-        <Grid Grid.Column="0" Background="#EDEDED">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel>
-                    <Button Margin="10" Padding="10" Content="菜单1" Click="Menu1_Click" />
-                    <Button Margin="10" Padding="10" Content="菜单2" Click="Menu2_Click" />
-                    <Button Margin="10" Padding="10" Content="菜单3" Click="Menu3_Click" />
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource SidebarBackground}" Padding="16">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                    <TextBlock Text="AI Demo" Foreground="White" FontSize="20" FontWeight="Bold" />
+                    <TextBlock Text="示例应用" Foreground="#A0A7B4" FontSize="12" />
                 </StackPanel>
-            </ScrollViewer>
-        </Grid>
 
-        <!-- 内容展示区域 -->
-        <Grid Grid.Column="1" Background="White">
-            <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden" Margin="10" />
-        </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Button Style="{StaticResource MenuButtonStyle}" Click="Menu1_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="" Margin="0,0,8,0" />
+                                <TextBlock Text="菜单1" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource MenuButtonStyle}" Click="Menu2_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="" Margin="0,0,8,0" />
+                                <TextBlock Text="菜单2" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource MenuButtonStyle}" Click="Menu3_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="" Margin="0,0,8,0" />
+                                <TextBlock Text="菜单3" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
 
-        <!-- 右上角登录/注册按钮 -->
-        <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Button Content="登录" Grid.Column="0" Margin="5" Click="Login_Click" />
-            <Button Content="注册" Grid.Column="1" Margin="5" Click="Register_Click" />
+        <!-- Main content area -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="72" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="Transparent" Padding="12" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="首页" FontSize="18" FontWeight="Bold" Foreground="#222" Margin="0,0,12,0" />
+                        <!-- 调整 VerticalContentAlignment 与 Padding，确保文本/占位文字完全可见 -->
+                        <TextBox Width="300" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                 Padding="10,4,10,4" VerticalContentAlignment="Center" Text="在此搜索..." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                        <Button Style="{StaticResource HeaderButton}" Content="登录" Click="Login_Click" />
+                        <Button Style="{StaticResource HeaderButton}" Content="注册" Click="Register_Click" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Content frame with padding/card look -->
+            <Border Grid.Row="1" Margin="16" Background="{StaticResource CardBackground}" CornerRadius="8" Padding="12" >
+                <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden" Background="Transparent" />
+            </Border>
         </Grid>
     </Grid>
 </Window>
