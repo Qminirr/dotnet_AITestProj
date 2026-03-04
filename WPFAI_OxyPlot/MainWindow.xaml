@@ -1,0 +1,26 @@
+﻿<Window x:Class="WPFAI_OxyPlot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFAI_OxyPlot"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="OxyPlot MVVM Demo" Height="600" Width="1400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="8" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Text="数据量：" VerticalAlignment="Center" Margin="0,0,4,0" />
+            <TextBox Width="80" Text="{Binding DataCountGenerate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,8,0" VerticalContentAlignment="Center" />
+            <Button Content="生成数据" Command="{Binding GenerateDataCommand}" Margin="0,0,8,0" Padding="8,4" />
+            <Button Content="{Binding RealTimeButtonText}" Command="{Binding RealTimeDataCommand}" Margin="0,0,8,0" Padding="8,4" />
+            <Button Content="保存截图" Click="SaveScreenshot_Click" Padding="8,4" />
+        </StackPanel>
+
+        <oxy:PlotView x:Name="PlotView" Model="{Binding PlotModel}" Grid.Row="1" Margin="8" Background="#26323A" />
+    </Grid>
+</Window>
